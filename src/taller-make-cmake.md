@@ -1,4 +1,4 @@
-## 1 - Qué es y para qué sirve GNU Make
+## 1 - Introducción: Qué es y para qué sirve GNU Make
 
 GNU Make es un software desarrollado por el proyecto GNU que controla la generación de binarios así como la ejecución de tareas necesarias para compilar y trabajar sobre un proyecto software.
 
@@ -15,27 +15,41 @@ GNU Make es un software desarrollado por el proyecto GNU que controla la generac
 
 ### 1.2 - Cómo funciona Make
 
-Make utiliza un archivo llamado `Makefile`
+Make utiliza un archivo llamado `Makefile`. En dicho archivo encontraremos principalmente dos tipos de estructuras, variables y reglas, que comentaremos más adelante.
 
-## 2 - Instalación de GNU Make
+Las variables serán un recurso auxiliar para las distintas tareas que realizará el `Makefile`, mientras las reglas serán las estructuras que generarán el proyecto o ejecutarán las tareas necesarias. Make utilizará estas reglas para saber que partes del proyecto son necesarias volver a compilar ya que se han actualizado y de esta forma evitar tener que generar todo desde cero.
 
-## 3 - El fichero Makefile
+Además de esto también existen funciones con las que podremos ejecutar código en la terminal asociada.
 
-### 3.1 - Variables
+## 2 - Por qué deberías usar Make
 
-### 3.2 - Reglas
+## 3 - Instalación de GNU Make
 
-#### 3.2.1 - Dependencias de las reglas
+## 4 - El fichero Makefile
 
-#### 3.2.2 - Comandos de las reglas
+### 4.1 - Variables
 
-### 3.3 - Objetivos especiales
+#### 4.1.1 - Variables predefinidas
 
-### 3.4 - Secciones condicionales
+#### 4.1.2 - Formas de difinir variables
 
-### 3.5 - Otras funciones y herramientas de interés
+### 4.2 - Reglas
 
-## 4 - Como ejecutar Make
+#### 4.2.1 - Objetivo de las reglas
+
+#### 4.2.2 - Dependencias de las reglas
+
+#### 4.2.3 - Comandos de las reglas
+
+### 4.3 - Funciones
+
+### 4.4 - Objetivos especiales
+
+### 4.5 - Secciones condicionales
+
+### 4.6 - Otras características y herramientas de interés
+
+## 5 - Como ejecutar Make
 
 
 
