@@ -23,7 +23,15 @@ Además de esto también existen funciones con las que podremos ejecutar código
 
 ## 2 - Por qué deberías usar Make
 
-## 3 - Instalación de GNU Make
+Utilizar Make es una opción mucho más recomendable que escribir scripts de compilación e instalación propios. Make realiza las tareas más tediosas que puedes encontrar a la hora de construir un proyecto, como generar en el orden correcto las dependencias, además de solo volver a generar las dependencias que sean necesarias.
+
+El principal objetivo de Make es que el construir un proyecto sea sencillo tanto para el usuario final como para el desarrollador, y en especial que este último no gaste más tiempo en la forma de construir su proyecto que en desarrollar el proyecto.
+
+Además, Make se trata de un software multiplataforma, disponible en cualquier sistema operativo al ser software libre, por lo tanto podremos ejecutar un `Makefile` tanto en sistemas Unix (cualquier distribución GNU/Linux, macOS, *BSD, etc) como en entornos Windows (si el fichero `Makefile` es escrito de forma correcta).
+
+## 3 - Instalación de Make
+
+
 
 ## 4 - El fichero Makefile
 
