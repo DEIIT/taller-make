@@ -31,6 +31,60 @@ Además, Make se trata de un software multiplataforma, disponible en cualquier s
 
 ## 3 - Instalación de Make
 
+### 3.1 - Instalación en GNU/Linux
+
+Para GNU/Linux la opción recomendada es instalar Make utilizando el gestor de paquetes de la distribución instalada:
+
+- Para Arch Linux (y derivadas, como Manjaro):
+
+```sh
+sudo pacman -S make
+```
+
+- Para Debian (y derivadas, como Ubuntu):
+
+```sh
+sudo apt install build-essential
+```
+
+- Para RedHat (y derivadas, como Fedora):
+
+```sh
+sudo dnf install make
+```
+
+- Para openSUSE:
+
+```sh
+sudo zypper install make
+```
+
+### 3.2 - Instalación en macOS
+
+Para instalar Make en macOS será necesario compilarlo desde el código fuente o bien instalarlo utilizando XCode:
+
+```sh
+xcode-select --install
+```
+
+### 3.3 - Instalación en Windows
+
+Para instalar Make en Windows será necesario compilarlo desde el código fuente o bien instalarlo utilizando [Chocolatey](https://chocolatey.org/install):
+
+```sh
+choco install make
+```
+
+
+### 3.4 - Instalación desde el código fuente
+
+Para instalarlo desde el código fuente tenemos que descargarnos la última versión disponible desde el servidor [FTP de GNU Make](https://ftp.gnu.org/gnu/make/) y utilizar el fichero `build.sh`:
+
+```sh
+./build.sh
+```
+
+También podremos compilarlo utilizando Make, aunque nos proporcionan este script de instalación en el caso de que no lo tengamos compilado.
 
 
 ## 4 - El fichero Makefile
