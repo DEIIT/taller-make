@@ -18,6 +18,8 @@ Make utiliza un archivo llamado `Makefile`. En dicho archivo encontraremos princ
 
 Las variables serán un recurso auxiliar para las distintas tareas que realizará el `Makefile`, mientras las reglas serán las estructuras que generarán el proyecto o ejecutarán las tareas necesarias. Make utilizará estas reglas para saber que partes del proyecto son necesarias volver a compilar ya que se han actualizado y de esta forma evitar tener que generar todo desde cero.
 
+Nosotros le diremos a Make que queremos que construya un objetivo, dicho objetivo tendrá asociada una regla, y Make se encargará de generar dicho objetivo automaticamente.
+
 Además de esto también existen funciones con las que podremos ejecutar código en la terminal asociada.
 
 Todas las tareas que realiza Make (tanto en las funciones, como en la ejecución de reglas) se ejecutarán como script en shell.
@@ -172,17 +174,40 @@ Las variables ya definidas en Make son variables comunmente utilizadas en la may
 Las reglas son la estructura principal de Make. Tienen la siguiente forma, en la que podemos distinguir tres partes:
 
 ```Makefile
-objetivo: dependencias
+objetivo/s: dependencias
 	receta
 ```
 
-Las dependencias pueden ser un conjunto tanto de objetivos como de ficheros, la receta es un conjunto de órdenes de shell y el objetivo ha de ser único.
+Las dependencias pueden ser un conjunto tanto de objetivos como de ficheros, la receta es un conjunto de órdenes de shell y el objetivo será un conjunto de nombres separados por espacios.
 
 Es importante destacar que la linea del objetivo y dependencias se escribe sin ningún nivel de indentación (si tenemos muchas dependencias podemos escapar el salto de linea), mientras que los comandos que formarán la receta han de estar indentados un nivel con el caracter `'\t'` y no espacios.
 
+Cuando Make tenga que construir un objetivo, comprobará la regla de dicho objetivo, si no se cumple alguna de las dependencias las añadirá como objetivo y las construirá con sus respectivas reglas o comprobará si existen en el caso de ser ficheros, y una vez satisfechas todas las dependencias, ejecutará la receta para conseguir el objetivo. 
+
 #### 4.2.1 - Objetivo de las reglas
 
+El objetivo de una regla se trata de una lista de nombres separados por espacios. Cuando finaliza la ejecución de la receta de la regla asociada a un objetivo Make marcará dicho objetivo como cumplido.
+
 #### 4.2.2 - Dependencias de las reglas
+
+Las dependencias se tratan de requisitos que el desarrollador impone para que la receta de una regla sea generada. Por ejemplo:
+
+```Makefile
+main: main.o foo.o
+	g++ main.o foo.o -o main
+
+main.o: main.cpp
+	g++ main.cpp -o main.o
+
+foo.o: foo.cpp
+	g++ foo.cpp -o foo.o
+```
+
+Si Make tiene como objetivo la regla `main`, hasta que no esté generado `main.o` y `foo.o`, no podrá ejecutar la receta de la regla `main`, de forma que Make se encargará de ejecutar antes las reglas necesarias para cumplir las dependencias.
+
+Además, Make se encargará de decidir si es necesario volver a ejecutar una receta para una regla, por ejemplo, si generamos una vez el objetivo `main`, modificamos el fichero `main.cpp`, y volvemos a generar con Make el objetivo `main`, Make comprobará la dependencia de `main.o`, encontrará el fichero en el sistema, pero como la fecha de modificación de `main.o` es anterior a la fecha de modificación de `main.cpp` ejecutará la receta de esta regla, sin embargo, en el caso de `foo.o`, el fichero será más reciente a su dependencia `foo.cpp`, luego no ejecutará su receta ya que el objetivo está actualizado.
+
+De esta forma Make solo ejecutará las recetas necesarias y que hayan sufrido cambios desde la última compilación.
 
 #### 4.2.3 - Receta de las reglas
 
