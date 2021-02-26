@@ -108,6 +108,8 @@ Existen dos formas de definir una variable, dependiendo de como queramos que se 
 
 ##### 4.1.1.1 - Variables expandidas de forma recursiva
 
+\
+
 Para definir este tipo de variables utilizaremos el operador `=`, por ejemplo:
 
 ```Makefile
@@ -125,6 +127,8 @@ ugh = Huh?
 Aunque `bar` y `ugh` se declaran y definen despues de `foo`, en el momento que para `foo` consultemos el valor de `bar`, Make expanderá su valor y declarará esta variable, realizará el mismo proceso con `ugh` y por lo tanto `foo` tendrá como valor `Huh?`.
 
 ##### 4.1.1.2 - Variables expandidas de forma simple
+
+\
 
 Para definir este tipo de variables utilizaremos el operador `:=`, por ejemplo:
 
@@ -150,6 +154,8 @@ Por lo tanto, si utilizamos el operador `:=` y utilizamos una variable definida 
 
 ##### 4.1.1.3 - Variables declaradas condicionalmente
 
+\
+
 Tambien podremos utilizar el operador `?=`, este operador solo tiene efecto si la variable no ha sido definida todavía, por ejemplo:
 
 ```Makefilefile
@@ -159,6 +165,8 @@ FOO ?= bar
 Si la variable `FOO` no se ha definido hasta ahora, tendrá el valor `bar`, pero si se ha definido antes (o se ha definido como parámetro al ejecutar el fichero `Makefile` como veremos más adelante), tendrá el valor anterior y no se realizará esta asignación.
 
 #### 4.1.2 - Variables predefinidas
+
+\
 
 Las variables ya definidas en Make son variables comunmente utilizadas en la mayoría de entornos de programación, de forma que sus valores por defecto permiten crear ficheros de Make de forma más cómoda. Algunas de estas son:
 
@@ -186,9 +194,13 @@ Cuando Make tenga que construir un objetivo, comprobará la regla de dicho objet
 
 #### 4.2.1 - Objetivo de las reglas
 
+\
+
 El objetivo de una regla se trata de una lista de nombres separados por espacios. Cuando finaliza la ejecución de la receta de la regla asociada a un objetivo Make marcará dicho objetivo como cumplido.
 
 #### 4.2.2 - Dependencias de las reglas
+
+\
 
 Las dependencias se tratan de requisitos que el desarrollador impone para que la receta de una regla sea generada. Por ejemplo:
 
@@ -211,7 +223,11 @@ De esta forma Make solo ejecutará las recetas necesarias y que hayan sufrido ca
 
 #### 4.2.3 - Receta de las reglas
 
+\
+
 ##### 4.2.3.1 - Variables especiales dentro de las recetas
+
+\
 
 ### 4.3 - Ejemplos de ficheros Makefile sencillos
 
