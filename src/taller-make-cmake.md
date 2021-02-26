@@ -12,7 +12,6 @@ GNU Make es un software desarrollado por el proyecto GNU que controla la generac
 
 - Aunque normalmente se utiliza para compilar y construir proyectos software, Make también se puede utilizar para automatizar cualquier tarea que queráis realizar.
 
-
 ### 1.2 - Cómo funciona Make
 
 Make utiliza un archivo llamado `Makefile`. En dicho archivo encontraremos principalmente dos tipos de estructuras, variables y reglas, que comentaremos más adelante.
@@ -75,7 +74,6 @@ Para instalar Make en Windows será necesario compilarlo desde el código fuente
 choco install make
 ```
 
-
 ### 3.4 - Instalación desde el código fuente
 
 Para instalarlo desde el código fuente tenemos que descargarnos la última versión disponible desde el servidor [FTP de GNU Make](https://ftp.gnu.org/gnu/make/) y utilizar el fichero `build.sh`:
@@ -86,14 +84,80 @@ Para instalarlo desde el código fuente tenemos que descargarnos la última vers
 
 También podremos compilarlo utilizando Make, aunque nos proporcionan este script de instalación en el caso de que no lo tengamos compilado.
 
-
 ## 4 - El fichero Makefile
+
+Como hemos comentado, el fichero `Makefile` se compone a grandes rasgos de una serie de variables que utilizaremos para la construcción del proyecto, las reglas encargadas de construir el proyecto y funciones auxiliares para ayudar a realizar las tareas que creamos necesarias.
 
 ### 4.1 - Variables
 
-#### 4.1.1 - Variables predefinidas
+En Make encontraremos algunas variables del sistema ya predefinidas, además de distintas formas de definir variables.
 
-#### 4.1.2 - Formas de difinir variables
+En todo caso, para referirnos a una variable una vez está declarada, utilizaremos un dolar seguido de el nombre de la variable entre parentesis:
+
+```make
+$(mi_variable)
+```
+
+#### 4.1.1 - Formas de difinir variables
+
+Existen dos formas de definir una variable, dependiendo de como queramos que se realice la expansión de variables, además de una declaración condicional.
+
+##### 4.1.1.1 - Variables expandidas de forma recursiva
+
+Para definir este tipo de variables utilizaremos el operador `=`, por ejemplo:
+
+```make
+src_main = main.cpp
+```
+
+La ventaja de utilizar este tipo de variables es que el orden de declaración no importa, es decir, si queremos utilizar la variable `foo` dentro de otra variable, es indiferente el orden de definición, por ejemplo:
+
+```make
+foo = $(bar)
+bar = $(ugh)
+ugh = Huh?
+```
+
+Aunque `bar` y `ugh` se declaran y definen despues de `foo`, en el momento que para `foo` consultemos el valor de `bar`, Make expanderá su valor y declarará esta variable, realizará el mismo proceso con `ugh` y por lo tanto `foo` tendrá como valor `Huh?`.
+
+##### 4.1.1.2 - Variables expandidas de forma simple
+
+Para definir este tipo de variables utilizaremos el operador `:=`, por ejemplo:
+
+```make
+src_main := main.cpp
+```
+
+En este caso las variables se expanden de forma simple según se han escrito en el Makefile, por ejemplo, estas dos secciones de declaraciones serían equivalentes:
+
+```make
+x := foo
+y := $(x) bar
+x := later
+```
+
+```make
+y := foo bar
+x := later
+```
+
+Por lo tanto, si utilizamos el operador `:=` y utilizamos una variable definida más adelante, su valor será vacio, no el definido más adelante.
+
+
+##### 4.1.1.3 - Variables declaradas condicionalmente
+
+Tambien podremos utilizar el operador `?=`, este operador solo tiene efecto si la variable no ha sido definida todavía, por ejemplo:
+
+```make
+FOO ?= bar
+```
+
+Si la variable `FOO` no se ha definido hasta ahora, tendrá el valor `bar`, pero si se ha definido antes (o se ha definido como parámetro al ejecutar el fichero `Makefile` como veremos más adelante), tendrá el valor anterior y no se realizará esta asignación.
+
+#### 4.1.2 - Variables predefinidas
+
+Las variables ya definidas en Make son variables que permiten utilizar Make 
+
 
 ### 4.2 - Reglas
 
@@ -103,21 +167,23 @@ También podremos compilarlo utilizando Make, aunque nos proporcionan este scrip
 
 #### 4.2.3 - Comandos de las reglas
 
-### 4.3 - Funciones
 
-### 4.4 - Objetivos especiales
+### 4.3 - Ejemplos de ficheros Makefile sencillos
 
-### 4.5 - Secciones condicionales
+### 4.4 - Funciones
 
-### 4.6 - Otras características y herramientas de interés
+### 4.5 - Objetivos especiales
+
+### 4.6 - Secciones condicionales
+
+### 4.7 - Otras características y herramientas de interés
 
 ## 5 - Como ejecutar Make
-
-
-
 
 ## Bibliografía
 
 [Página principal del proyecto GNU Make](https://www.gnu.org/software/make/)
 
 [Manual oficial de GNU Make](https://www.gnu.org/software/make/manual/html_node/index.html)
+
+[Variables predefinidas en Make](https://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html)
