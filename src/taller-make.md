@@ -182,7 +182,7 @@ Las variables ya definidas en Make son variables comunmente utilizadas en la may
 Las reglas son la estructura principal de Make. Tienen la siguiente forma, en la que podemos distinguir tres partes:
 
 ```Makefile
-objetivo/s: dependencias
+objetivos: dependencias
 	receta
 ```
 
@@ -276,6 +276,15 @@ Hola
 ##### 4.2.3.1 - Variables especiales dentro de las recetas
 
 \
+
+En la receta de una regla también podremos utilizar las variables del fichero `Makefile`, además, Make nos da algunas variables especiales que solo podemos utilizar dentro de la receta, ya que estas variables están asociadas a la regla de la receta:
+
+- `$@` : Nombre del archivo del objetivo de la regla. Si la regla tiene multiples objetivos, el nombre del archivo que generó que se ejecutara la receta.
+- `$<` : Primer elemento de la lista de dependencias.
+- `$?` : Dependencias que son más recientes que el objetivo, separadas por espacios. Si el objetivo no existe, esta variable serán todas las dependencias.
+- `$^` : Todas las dependencias, separadas por espacios. Solo contiene archivos, no contendrá objetivos que no son ficheros. Si un fichero aparece más de una vez esta variable solo lo almacenará una única vez.
+- `$+` : Misma variable que `$^`, pero si se tienen dependencias repetidas, aparecerán repetidas.
+- `$|` : Dependencias que no son ficheros, separadas por espacios.
 
 ### 4.3 - Ejemplos de ficheros Makefile sencillos
 
