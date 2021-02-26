@@ -288,17 +288,20 @@ En la receta de una regla también podremos utilizar las variables del fichero `
 
 ### 4.3 - Ejemplos de ficheros Makefile sencillos
 
-### 4.4 - Funciones de Make
-
-### 4.5 - Declaración de nuevas funciones
-
-### 4.6 - Objetivos especiales
-
-### 4.7 - Secciones condicionales
-
-### 4.8 - Otras características y herramientas de interés
-
 ## 5 - Como ejecutar Make
+
+## 6 - Aspectos un poco más avanzados de Make
+
+### 6.4 - Funciones de Make
+
+### 6.5 - Declaración de nuevas funciones
+
+### 6.6 - Objetivos especiales
+
+### 6.7 - Secciones condicionales
+
+### 6.8 - Otras características y herramientas de interés
+
 
 ## Bibliografía y enlaces de interés
 
