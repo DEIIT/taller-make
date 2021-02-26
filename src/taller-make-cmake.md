@@ -96,7 +96,7 @@ En Make encontraremos algunas variables del sistema ya predefinidas, además de 
 
 En todo caso, para referirnos a una variable una vez está declarada, utilizaremos un dolar seguido de el nombre de la variable entre parentesis:
 
-```make
+```Makefile
 $(mi_variable)
 ```
 
@@ -108,13 +108,13 @@ Existen dos formas de definir una variable, dependiendo de como queramos que se 
 
 Para definir este tipo de variables utilizaremos el operador `=`, por ejemplo:
 
-```make
+```Makefile
 src_main = main.cpp
 ```
 
 La ventaja de utilizar este tipo de variables es que el orden de declaración no importa, es decir, si queremos utilizar la variable `foo` dentro de otra variable, es indiferente el orden de definición, por ejemplo:
 
-```make
+```Makefile
 foo = $(bar)
 bar = $(ugh)
 ugh = Huh?
@@ -126,19 +126,19 @@ Aunque `bar` y `ugh` se declaran y definen despues de `foo`, en el momento que p
 
 Para definir este tipo de variables utilizaremos el operador `:=`, por ejemplo:
 
-```make
+```Makefile
 src_main := main.cpp
 ```
 
 En este caso las variables se expanden de forma simple según se han escrito en el Makefile, por ejemplo, estas dos secciones de declaraciones serían equivalentes:
 
-```make
+```Makefile
 x := foo
 y := $(x) bar
 x := later
 ```
 
-```make
+```Makefile
 y := foo bar
 x := later
 ```
@@ -150,7 +150,7 @@ Por lo tanto, si utilizamos el operador `:=` y utilizamos una variable definida 
 
 Tambien podremos utilizar el operador `?=`, este operador solo tiene efecto si la variable no ha sido definida todavía, por ejemplo:
 
-```make
+```Makefilefile
 FOO ?= bar
 ```
 
@@ -169,22 +169,36 @@ Las variables ya definidas en Make son variables comunmente utilizadas en la may
 
 ### 4.2 - Reglas
 
+Las reglas son la estructura principal de Make. Tienen la siguiente forma, en la que podemos distinguir tres partes:
+
+```Makefile
+objetivo: dependencias
+	receta
+```
+
+Las dependencias pueden ser un conjunto tanto de objetivos como de ficheros, la receta es un conjunto de órdenes de shell y el objetivo ha de ser único.
+
+Es importante destacar que la linea del objetivo y dependencias se escribe sin ningún nivel de indentación (si tenemos muchas dependencias podemos escapar el salto de linea), mientras que los comandos que formarán la receta han de estar indentados un nivel con el caracter `'\t'` y no espacios.
+
 #### 4.2.1 - Objetivo de las reglas
 
 #### 4.2.2 - Dependencias de las reglas
 
-#### 4.2.3 - Comandos de las reglas
+#### 4.2.3 - Receta de las reglas
 
+##### 4.2.3.1 - Variables especiales dentro de las recetas
 
 ### 4.3 - Ejemplos de ficheros Makefile sencillos
 
-### 4.4 - Funciones
+### 4.4 - Funciones de Make
 
-### 4.5 - Objetivos especiales
+### 4.5 - Declaración de nuevas funciones
 
-### 4.6 - Secciones condicionales
+### 4.6 - Objetivos especiales
 
-### 4.7 - Otras características y herramientas de interés
+### 4.7 - Secciones condicionales
+
+### 4.8 - Otras características y herramientas de interés
 
 ## 5 - Como ejecutar Make
 
@@ -195,3 +209,5 @@ Las variables ya definidas en Make son variables comunmente utilizadas en la may
 [Manual oficial de GNU Make](https://www.gnu.org/software/make/manual/html_node/index.html)
 
 [Variables predefinidas en Make](https://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html)
+
+[Convenciones al escribir Makefiles](https://www.gnu.org/software/make/manual/html_node/Makefile-Conventions.html#Makefile-Conventions)
