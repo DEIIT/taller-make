@@ -198,6 +198,8 @@ Cuando Make tenga que construir un objetivo, comprobará la regla de dicho objet
 
 El objetivo de una regla se trata de una lista de nombres separados por espacios. Cuando finaliza la ejecución de la receta de la regla asociada a un objetivo Make marcará dicho objetivo como cumplido.
 
+Estos objetivos pueden ser ficheros o bien nombres que no serán ficheros y nos servirán como objetivos auxiliares para realizar una tarea.
+
 #### 4.2.2 - Dependencias de las reglas
 
 \
@@ -224,6 +226,52 @@ De esta forma Make solo ejecutará las recetas necesarias y que hayan sufrido ca
 #### 4.2.3 - Receta de las reglas
 
 \
+
+La receta de una regla se trata de una serie de instrucciones escritas en script de shell que Make ejecutará.
+
+Todas las lineas que compongan la receta deberían tener un nivel de tabulación utilizando el caracter `\t`, y nunca indentación con espacios.
+
+En principio, si una de estas instrucciones falla (devuelve un código de error distinto de cero) Make parará el proceso de construcción avisando de un error al generar un objetivo y detrendrá la ejecución del `Makefile`. Una forma de evitar esto es añadir `-` al inicio de la linea de la regla en la que permitimos que el comando falle, un ejemplo de la utilidad de este modificador es si tenemos una regla que elimina los binarios construidos:
+
+```Makefile
+clean:
+	rm -f *.o
+```
+
+Esta regla, cuyo objetivo es `clean` y no tiene ninguna dependencia, tiene como receta eliminar todos los ficheros con extensión `.o` del directorio de trabajo, sin embargo, si esta regla es ejecutada por Make y no existe ningún fichero con dicha extensión el comando `rm` nos devolverá un estado de error y Make detendrá el proceso de compilación con un estado de error. En este caso, aunque queramos eliminar los ficheros objetos, también nos vale que estos no existan, luego si modificamos la regla de la siguiente forma, Make tan solo mostrará un aviso pero seguirá ejecutandose.
+
+```Makefile
+clean:
+	-rm -f *.o
+```
+
+Otro detalle a tener en cuenta es que cuando Make ejecuta una regla el comando a ejecutar en el shell se mostrará por pantalla, esto puede ser de utilidad a la hora de ver que comandos se ejecutan y con que parámetros (por ejemplo al ejecutar `gcc`), sin embargo puede ser molesto para algunos casos como el siguiente:
+
+```Makefile
+saludar:
+	echo "Hola"
+```
+
+En este caso, cuando se ejecute la regla con el objetivo `saludar`, obtendremos la siguiente salida:
+
+```sh
+echo "Hola"
+Hola
+```
+
+Una forma de evitar esto es añadir el modificador `@` al principio de la linea de shell, evitando que se muestre el comando que se está ejecutando.
+
+```Makefile
+saludar:
+	@echo "Hola"
+```
+
+Y con esto obtendríamos la siguiente salida:
+
+```sh
+Hola
+```
+
 
 ##### 4.2.3.1 - Variables especiales dentro de las recetas
 
