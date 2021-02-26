@@ -20,6 +20,8 @@ Las variables serán un recurso auxiliar para las distintas tareas que realizar�
 
 Además de esto también existen funciones con las que podremos ejecutar código en la terminal asociada.
 
+Todas las tareas que realiza Make (tanto en las funciones, como en la ejecución de reglas) se ejecutarán como script en shell.
+
 ## 2 - Por qué deberías usar Make
 
 Utilizar Make es una opción mucho más recomendable que escribir scripts de compilación e instalación propios. Make realiza las tareas más tediosas que puedes encontrar a la hora de construir un proyecto, como generar en el orden correcto las dependencias, además de solo volver a generar las dependencias que sean necesarias.
@@ -156,8 +158,14 @@ Si la variable `FOO` no se ha definido hasta ahora, tendrá el valor `bar`, pero
 
 #### 4.1.2 - Variables predefinidas
 
-Las variables ya definidas en Make son variables que permiten utilizar Make 
+Las variables ya definidas en Make son variables comunmente utilizadas en la mayoría de entornos de programación, de forma que sus valores por defecto permiten crear ficheros de Make de forma más cómoda. Algunas de estas son:
 
+- `CC`: Compilador de C, por defecto `cc`.
+- `CFLAGS`: Opciones de compilación para el compilador de C.
+- `CXX`: Compilador de C++, por defecto `g++`.
+- `CXXFLAGS`: Opciones de compilación para el compilador de C++.
+- `RM`: Comando para eliminar un fichero, por defecto `rm -rf`.
+- `SHELL`: Terminal donde se ejecutarán los comandos, por defecto `/bin/sh` en entornos Unix.
 
 ### 4.2 - Reglas
 
@@ -180,7 +188,7 @@ Las variables ya definidas en Make son variables que permiten utilizar Make
 
 ## 5 - Como ejecutar Make
 
-## Bibliografía
+## Bibliografía y enlaces de interés
 
 [Página principal del proyecto GNU Make](https://www.gnu.org/software/make/)
 
