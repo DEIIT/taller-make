@@ -288,6 +288,60 @@ En la receta de una regla también podremos utilizar las variables del fichero `
 
 ### 4.3 - Ejemplos de ficheros Makefile sencillos
 
+Con las características comentadas hasta ahora podemos crear ficheros `Makefile` simples, como el siguiente ejemplo:
+
+- Ejemplo de un Makefile de las primeras sesiones de la asignatura Metodología de la Programación:
+
+```Makefile
+HOME = .
+
+LIB = $(HOME)/lib
+INCLUDE = $(HOME)/include
+BIN = $(HOME)/bin
+SRC = $(HOME)/src
+OBJ = $(HOME)/obj
+
+OBJETIVOS = $(BIN)/I_PosicionPrimerBlanco $(BIN)/I_SaltaPrimeraPalabra $(BIN)/I_DemoCadenasClasicas
+
+all : $(OBJETIVOS) finalizado
+
+$(BIN)/I_PosicionPrimerBlanco : $(SRC)/I_PosicionPrimerBlanco.cpp
+	@echo -e "Generando $(BIN)/I_PosicionPrimerBlanco"
+	g++ -o $(BIN)/I_PosicionPrimerBlanco $(SRC)/I_PosicionPrimerBlanco.cpp
+	@echo -e "Generado correctamente \n"
+
+$(BIN)/I_SaltaPrimeraPalabra : $(SRC)/I_SaltaPrimeraPalabra.cpp
+	@echo "Generando $(BIN)/I_SaltaPrimeraPalabra"
+	g++ -o $(BIN)/I_SaltaPrimeraPalabra $(SRC)/I_SaltaPrimeraPalabra.cpp
+	@echo -e "Generado correctamente \n"
+
+$(BIN)/I_DemoCadenasClasicas : $(OBJ)/I_DemoCadenasClasicas.o $(OBJ)/MiCadenaClasica.o
+	@echo -e "Generando $(BIN)/I_DemoCadenasClasicas"
+	g++ -o $(BIN)/I_DemoCadenasClasicas $(OBJ)/I_DemoCadenasClasicas.o $(OBJ)/MiCadenaClasica.o
+	@echo -e "Generado correctamente \n"
+
+$(OBJ)/I_DemoCadenasClasicas.o : $(SRC)/I_DemoCadenasClasicas.cpp $(INCLUDE)/MiCadenaClasica.h
+	@echo -e "Generando objetos necesarios"
+	g++ -c -o $(OBJ)/I_DemoCadenasClasicas.o $(SRC)/I_DemoCadenasClasicas.cpp -I$(INCLUDE)
+	@echo
+
+$(OBJ)/MiCadenaClasica.o : $(SRC)/MiCadenaClasica.cpp $(INCLUDE)/MiCadenaClasica.h
+	@echo -e "Generando objetos necesarios"
+	g++ -c -o $(OBJ)/MiCadenaClasica.o $(SRC)/MiCadenaClasica.cpp -I$(INCLUDE)
+	@echo
+
+finalizado :
+	@echo -e "/***********************************************************/"
+	@echo -e "\nTodas las tareas han sido ejecutadas correctamente \n"
+	@echo -e "/***********************************************************/\n"
+
+clean :
+	-rm $(OBJ)/*
+
+mrproper : clean
+	-rm $(BIN)/*
+```
+
 ## 5 - Como ejecutar Make
 
 ## 6 - Aspectos un poco más avanzados de Make
