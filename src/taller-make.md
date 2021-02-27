@@ -402,8 +402,42 @@ Ha de ser equivalente a ejecutar:
 make all
 ```
 
+### 5.4 - Definiendo variables al llamar a Make
 
-## 6 - Aspectos un poco más avanzados de Make
+Como vimos al principio, en Make existe el operador `?=` para definir una variable, en el que se asigna el valor si la variable no se ha definido antes.
+
+Uno de los casos en los que nos es util este operador es si definimos una variable al llamar a Make, esto lo podemos hacer de la siguiente forma:
+
+```sh
+make foo=hola
+```
+
+De esta forma, la variable `foo` tendrá el valor `hola` dentro del `Makefile`.
+
+Un ejemplo de usar esta forma de definir variables es el siguiente `Makefile`:
+
+```Makefile
+HOME = .
+SRC ?= $(HOME)/src
+BIN ?= $(HOME)/bin
+
+all : $(BIN)/ejemplo
+
+$(BIN)/ejemplo : $(SRC)/ejemplo.cpp
+	g++ -o $@ $^
+```
+
+Si lanzamos este `Makefile` utilizando la orden `make`, usará las rutas de `src` y `bin` por defecto, sin embargo si ejecutamos por ejemplo:
+
+```sh
+make BIN=../salida SRC=./src/programa1
+```
+
+Podemos cambiar la ruta en la que el `Makefile` generará los binarios y en la que obtendrá el código fuente.
+
+
+## 6 - Aspectos más avanzados de Make
+
 
 ### 6.4 - Funciones de Make
 
