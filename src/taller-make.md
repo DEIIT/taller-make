@@ -303,31 +303,33 @@ OBJ = $(HOME)/obj
 
 OBJETIVOS = $(BIN)/I_PosicionPrimerBlanco $(BIN)/I_SaltaPrimeraPalabra $(BIN)/I_DemoCadenasClasicas
 
+CXX = g++
+
 all : $(OBJETIVOS) finalizado
 
 $(BIN)/I_PosicionPrimerBlanco : $(SRC)/I_PosicionPrimerBlanco.cpp
-	@echo -e "Generando $(BIN)/I_PosicionPrimerBlanco"
-	g++ -o $(BIN)/I_PosicionPrimerBlanco $(SRC)/I_PosicionPrimerBlanco.cpp
+	@echo -e "Generando $@"
+	$(CXX) -o $@ $<
 	@echo -e "Generado correctamente \n"
 
 $(BIN)/I_SaltaPrimeraPalabra : $(SRC)/I_SaltaPrimeraPalabra.cpp
-	@echo "Generando $(BIN)/I_SaltaPrimeraPalabra"
-	g++ -o $(BIN)/I_SaltaPrimeraPalabra $(SRC)/I_SaltaPrimeraPalabra.cpp
+	@echo "Generando $@"
+	$(CXX) -o $@ $<
 	@echo -e "Generado correctamente \n"
 
 $(BIN)/I_DemoCadenasClasicas : $(OBJ)/I_DemoCadenasClasicas.o $(OBJ)/MiCadenaClasica.o
-	@echo -e "Generando $(BIN)/I_DemoCadenasClasicas"
-	g++ -o $(BIN)/I_DemoCadenasClasicas $(OBJ)/I_DemoCadenasClasicas.o $(OBJ)/MiCadenaClasica.o
+	@echo -e "Generando $@"
+	$(CXX) -o $@ $^
 	@echo -e "Generado correctamente \n"
 
 $(OBJ)/I_DemoCadenasClasicas.o : $(SRC)/I_DemoCadenasClasicas.cpp $(INCLUDE)/MiCadenaClasica.h
 	@echo -e "Generando objetos necesarios"
-	g++ -c -o $(OBJ)/I_DemoCadenasClasicas.o $(SRC)/I_DemoCadenasClasicas.cpp -I$(INCLUDE)
+	$(CXX) -c -o $@ $< -I$(INCLUDE)
 	@echo
 
 $(OBJ)/MiCadenaClasica.o : $(SRC)/MiCadenaClasica.cpp $(INCLUDE)/MiCadenaClasica.h
 	@echo -e "Generando objetos necesarios"
-	g++ -c -o $(OBJ)/MiCadenaClasica.o $(SRC)/MiCadenaClasica.cpp -I$(INCLUDE)
+	$(CXX) -c -o $@ $< -I$(INCLUDE)
 	@echo
 
 finalizado :
@@ -343,6 +345,63 @@ mrproper : clean
 ```
 
 ## 5 - Como ejecutar Make
+
+### 5.1 - Como lanzar Make de forma básica
+
+Una vez ya sabemos escribir un archivo `Makefile`, para poder obtener resultados tenemos que ejecutar dicho fichero con Make.
+
+Make reconocerá el fichero `Makefile` en la carpeta en la que se ejecuta siempre que este fichero se llame `makefile` o `Makefile`, por lo que podemos simplemente ejecutar lo siguiente en el directorio donde se encuentre dicho fichero:
+
+```sh
+make
+```
+
+Si el fichero tiene un nombre distinto, podemos utilizar el parámetro `-f`:
+
+```sh
+make -f mi_fichero_make
+```
+
+### 5.2 - Como especificar el objetivo a Make
+
+Si lanzamos Make sin especificar ningún objetivo, Make tendrá como objetivo la primera regla que encuentre en el fichero `Makefile`. Podemos especificarle un objetivo concreto ejecutandolo de la siguiente forma:
+
+```sh
+make <objetivo>
+```
+
+Y esto se puede añadir a la opción de utilizar un `Makefile` con un nombre especial:
+
+```sh
+make <objetivo> -f mi_fichero_make
+```
+
+Por ejemplo, si en el ejemplo de la sección anterior queremos construir solo el binario `$(BIN)/I_PosicionPrimerBlanco`, podríamos ejecutar:
+
+```sh
+make ./bin/I_PosicionPrimerBlanco -f mi_fichero_make
+```
+
+Y si por ejemplo, queremos limpiar los binarios, cosa que no se realiza de forma normal al lanzar Make, podríamos usar la siguiente orde:
+
+```sh
+make mrproper -f mi_fichero_make
+```
+
+### 5.3 - Objetivo all
+
+Como hemos comentado, Make tendrá como objetivo la primera regla que se especifique siempre que no se ejecute con un objetivo definido, por este motivo es una práctica bastante estandarizada incluir un objetivo llamado `all` que siempre será la primera regla que aparecerá en el `Makefile`. De esta forma, ejecutar:
+
+```sh
+make
+```
+
+Ha de ser equivalente a ejecutar:
+
+```sh
+make all
+```
+
 
 ## 6 - Aspectos un poco más avanzados de Make
 
