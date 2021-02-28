@@ -575,7 +575,7 @@ Esto daría como resultado `foo.o bar.o`.
 $(strip  a     b  c  )
 ```
 
-Daría como resultado `a b c`
+Daría como resultado `a b c`.
 
 Esta función será util cuando algunas variables tengan espacios al inicio o final, y queramos concatenar valores, por ejemplo:
 
@@ -613,8 +613,33 @@ archivos := $(foreach directorio, src include, $(wildcard $(directorio)/*))
 
 Con lo que obtendríamos todos los ficheros en los directorios `src` e `include`.
 
+- `call` : Como veremos en la siguiente sección, nosotros podemos definir funciones propias en nuestro `Makefile`. Esta función nos permite llamar a dichas funciones.
+
+```Makefile
+$(call funcion, param1, ..., paramN)
+```
 
 ### 6.3 - Declaración de nuevas funciones
+
+Las funciones en Make ejecutarán código en shell, y para declarar una función en Make utilizaremos la siguiente estructura:
+
+```Makefile
+define funcion
+	comandos
+endef
+```
+
+De esta forma podremos crear funciones con el objetivo de crear tareas concretas y utilizarlas con la función `call`. Nos podemos referir a los parámetros dados con `$(N)` siendo `N` el número del parámetro comenzando desde 1, por ejemplo:
+
+```Makefile
+define creadir
+	@printf "\033[1;32mCreando directorio\033[0m %s\n" $(1)
+	@mkdir -p $(2)
+endef
+
+all:
+	$(foreach dir,src bin obj, $(call creadir, $(dir)))
+```
 
 ### 6.4 - Objetivos especiales
 
