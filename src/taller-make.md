@@ -436,6 +436,19 @@ make BIN=../salida SRC=./src/programa1
 Podemos cambiar la ruta en la que el `Makefile` generará los binarios y en la que obtendrá el código fuente.
 
 
+### 5.5 - Otros parámetros de Make
+
+Algunos de los parámetros más interesantes que nos ofrece Make son:
+
+- `-s` : Ejecutará todas las recetas sin mostrar su contenido, equivalente a utilizar `@` en todos los comandos de las recetas.
+- `-B` : Reconstruir todas las recetas, aunque no sea necesario.
+- `-C dir` : Cambiar el directorio antes de leer el `Makefile`, por ejemplo, si el fichero Make se encuentra en la carpeta `build` y queremos ejecutar Make desde la raiz podemos ejecutar `make -C build`
+- `-d` : Mostrar información de depuración a nivel de Make, normalmente que archivos se están recompilando,  que reglas se están utilizando, entre otros detalles.
+- `-i` : Ignora los errores al volver a construir archivos, sería equivalente a utilizar `-` en todos los comandos de las recetas.
+- `-k` : Intenta continuar aunque Make encuentre un error.
+- `-j [N]` : Número de comandos a ejecutar de forma simultanea. Si no se especifica número se ejecutarán tantos como sea posible. Opción solo disponible en entornos Unix, en Windows esta opción es ignorada.
+- `-o archivo` : No reconstruir el archivo dado, aunque la fecha de modificación del fuente sea más reciente.
+
 ## 6 - Aspectos más avanzados de Make
 
 Aunque hemos visto los aspectos básicos de Make con los que se podría trabajar perfectamente, en esta sección cubriremos características que nos ayudarán a escribir nuestro `Makefile` de una forma más rapida.
@@ -642,6 +655,7 @@ all:
 ```
 
 ### 6.4 - Objetivos especiales
+
 
 ### 6.5 - Secciones condicionales
 
