@@ -736,6 +736,14 @@ endif
 
 En este ejemplo comprobamos el compilador a utilizar, si es G++, compilaremos con las extensiones de GNU para C++20, si es otro compilador, utilizaremos la versión estandar de C++20.
 
+## 7 - Un poco más alla de Make: CMake
+
+Aunque con las herramientas mencionadas se podría escribir un Makefile que funcione en distintas plataformas, es un proceso tedioso y a veces tan complicado que es más sencillo escribir `Makefile`s distintos. Por este motivo surgió CMake, cross platform make.
+
+CMake utiliza una única sintaxis para generar un `Makefile` dependiendo del sistema operativo en el que se ejecute CMake, de forma que el programador no se tiene que preocupar por detalles del sistema sobre el que va a compilar, simplemente lanzar CMake y este se encargará de generar todo lo necesario para que funcione en el S.O utilizado.
+
+Si os interesa, CMake tiene publicado en su [página web](https://cmake.org/) un tutoríal para [comenzar a utilizar CMake](https://cmake.org/cmake/help/latest/guide/tutorial/index.html).
+
 ## Bibliografía y enlaces de interés
 
 [Página principal del proyecto GNU Make](https://www.gnu.org/software/make/)
