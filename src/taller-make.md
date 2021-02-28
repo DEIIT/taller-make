@@ -438,16 +438,133 @@ Podemos cambiar la ruta en la que el `Makefile` generará los binarios y en la q
 
 ## 6 - Aspectos más avanzados de Make
 
+Aunque hemos visto los aspectos básicos de Make con los que se podría trabajar perfectamente, en esta sección cubriremos características que nos ayudarán a escribir nuestro `Makefile` de una forma más rapida.
 
-### 6.4 - Funciones de Make
 
-### 6.5 - Declaración de nuevas funciones
+### 6.1 - Reglas con patrones
 
-### 6.6 - Objetivos especiales
+Make también soporta escribir reglas con patrones. Para realizar esta tarea, también añade el operador `%`.
 
-### 6.7 - Secciones condicionales
+Si escribimos la siguiente regla:
 
-### 6.8 - Otras características y herramientas de interés
+```Makefile
+*.o : *.cpp
+	g++ -o $@ $^
+```
+
+Si disponemos de multiples objetivos y ficheros de C++, estamos indicando una regla con multiples objetivos, y como dependencia una gran lista de ficheros de C++, en la que los objetivos se construirán con todos los ficheros de C++, sin embargo, el operador `%` se utiliza para referirse a un único fichero, y si `%` aparece varias veces, el valor siempre ha de coincidir, por ejemplo:
+
+```Makefile
+%.o : %.cpp
+	g++ -o $@ $^
+```
+
+En el primer caso (utilizando asterisco), si tenemos dos ficheros `foo.cpp` y `bar.cpp`, la regla tendría dos objetivos, y dos dependencias, sin embargo, en el segundo caso la regla tendría un único objetivo y una única dependencia, reutilizandose para ambos ficheros, de forma que si en otra regla se tiene como dependencia `foo.o`, esta última regla tomaría el siguiente valor:
+
+```Makefile
+foo.o : foo.cpp
+	g++ -o $@ $^
+```
+
+Y respectivamente si se cambia `foo.o` por `bar.o`. Esto será muy util para reglas repetitivas que suelen tener la misma entrada, por ejemplo, el `Makefile` de ejemplo sencillo quedaría así:
+
+
+
+```Makefile
+HOME = .
+
+LIB = $(HOME)/lib
+INCLUDE = $(HOME)/include
+BIN = $(HOME)/bin
+SRC = $(HOME)/src
+OBJ = $(HOME)/obj
+
+OBJETIVOS = $(BIN)/I_PosicionPrimerBlanco $(BIN)/I_SaltaPrimeraPalabra $(BIN)/I_DemoCadenasClasicas
+
+CXX = g++
+
+all : $(OBJETIVOS) finalizado
+
+$(BIN)/% : $(SRC)/%.cpp
+	@echo -e "Generando $@"
+	$(CXX) -o $@ $<
+	@echo -e "Generado correctamente \n"
+
+
+$(BIN)/I_DemoCadenasClasicas : $(OBJ)/I_DemoCadenasClasicas.o $(OBJ)/MiCadenaClasica.o
+	@echo -e "Generando $@"
+	$(CXX) -o $@ $^
+	@echo -e "Generado correctamente \n"
+
+$(OBJ)/%.o : $(SRC)/%.cpp $(INCLUDE)/%.h
+	@echo -e "Generando objetos necesarios"
+	$(CXX) -c -o $@ $< -I$(INCLUDE)
+	@echo
+
+finalizado :
+	@echo -e "/***********************************************************/"
+	@echo -e "\nTodas las tareas han sido ejecutadas correctamente \n"
+	@echo -e "/***********************************************************/\n"
+
+clean :
+	-rm $(OBJ)/*
+
+mrproper : clean
+	-rm $(BIN)/*
+```
+
+### 6.2 - Funciones de Make
+
+Make tiene una serie de funciones predefinidas que nos pueden ser muy útiles a la hora de trabajar con nuestros proyectos. La forma de llamar a las funciones es la siguiente:
+
+```Makefile
+$(nombre_funcion parametro1...parametroN)
+```
+
+Algunas de las funciones más interesantes son:
+
+- `value` : Nos será de utilidad por el comportamiento de las recetas de las distintas reglas. Las recetas se tratan de comandos en shell, por lo tanto, puede darse el siguiente caso:
+
+```Makefile
+FOO = $PATH
+
+all:
+	@echo $(FOO)
+```
+
+En este caso, `FOO` se expandería como `$PATH`, sin embargo Make expandería `$P` como una variable de Make (que estaría vacia) y por lo tanto el comando `echo` tendrá como salida `ATH`, una forma de solucionarlo es utilizando la función `value`:
+
+
+```Makefile
+FOO = $PATH
+
+all:
+	@echo $(value FOO)
+```
+
+En este caso, Make evaluará la variable `FOO` y sustituirá su contenido por completo, de forma que se ejecutará `echo $PATH` y el resultado será la variable de entorno con el directorio de trabajo actual.
+
+
+- `shell` : Nos permitirá ejecutar comandos en shell y nos devolverá su salida. Uno ejemplo de su uso es si queremos tener una variable que contenga la ruta absoluta, realice búsquedas de ficheros o busque patrones de expresiones regulares y queremos utilizar alguna herramienta de shell como `find`, `grep`, etc.
+
+```Makefile
+DIRECTORIO := $(shell pwd)
+FICHEROS_C := $(shell echo *.c)
+IMG_PNG := $(shell find img/ -name "*.png")
+```
+
+- `wildcard` : Nos permite utilizar las expansiones que realiza Make dentro de otras funciones. Por ejemplo, si al declarar una variable utilizamos `*.c`, dicha variable contendrá todos los ficheros que tengan extensión de C, sin embargo, si queremos utilizar esa lista de ficheros en otra función podemos utilizar la función `wildcard`.
+
+- `foreach` : Nos permite iterar sobre una lista para aplicar algún 
+
+
+### 6.3 - Declaración de nuevas funciones
+
+### 6.4 - Objetivos especiales
+
+### 6.5 - Secciones condicionales
+
+### 6.6 - Otras características y herramientas de interés
 
 
 ## Bibliografía y enlaces de interés
