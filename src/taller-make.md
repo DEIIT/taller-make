@@ -553,9 +553,65 @@ FICHEROS_C := $(shell echo *.c)
 IMG_PNG := $(shell find img/ -name "*.png")
 ```
 
-- `wildcard` : Nos permite utilizar las expansiones que realiza Make dentro de otras funciones. Por ejemplo, si al declarar una variable utilizamos `*.c`, dicha variable contendrá todos los ficheros que tengan extensión de C, sin embargo, si queremos utilizar esa lista de ficheros en otra función podemos utilizar la función `wildcard`.
+- `subst` : Sustituir texto en una cadena, por ejemplo:
 
-- `foreach` : Nos permite iterar sobre una lista para aplicar algún 
+```Makefile
+$(subst ol,lo,Hola mundo)
+```
+
+Cambiaría las apariciones de `ol` por `lo` en la cadena `Hola`, quedando como `Hloa mundo`.
+
+- `patsubst` : Como la anterior, pero además soporta patrones con `%`, de forma que se pueden hacer sustituciones uno a uno con ficheros con el mismo nombre. Un ejemplo muy usual de esto es cambiar la extensión de una serie de ficheros:
+
+```Makefile
+$(patsubst %.c,%.o,foo.c bar.c)
+```
+
+Esto daría como resultado `foo.o bar.o`.
+
+- `strip` : Elimina los espacios en blanco repetidos, dejando únicamente un espacio en blanco, por ejemplo:
+
+```Makefile
+$(strip  a     b  c  )
+```
+
+Daría como resultado `a b c`
+
+Esta función será util cuando algunas variables tengan espacios al inicio o final, y queramos concatenar valores, por ejemplo:
+
+```Makefile
+archivo = a 
+extension = .txt
+
+nombre_completo = $(archivo)$(extension)
+```
+
+Esto daría como resultado ` a  .txt` debido a los espacios en las variables, sin embargo, podemos escribir lo siguiente:
+
+```Makefile
+archivo = a 
+extension = .txt
+
+nombre_completo = $(strip $(archivo))$(strip $(extension))
+```
+
+Que daría como resultado `a.txt` al eliminar los espacios antes y despues de cada palabra.
+
+
+- `wildcard` : Nos permite utilizar las expansiones que realiza Make dentro de otras funciones. Por ejemplo, si al declarar una variable utilizamos `*.c`, dicha variable contendrá todos los ficheros que tengan extensión de C, sin embargo, si queremos utilizar esa lista de ficheros en otra función podemos utilizar la función `wildcard`. Por ejemplo, podríamos obtener una lista de todos los ficheros en C, pero cambiando su extensión para tener su nombre como código objeto:
+
+```Makefile
+$(patsubst %.c,%.o,$(wildcard *.c))
+```
+
+
+- `foreach` : Nos permite iterar sobre una lista para aplicar alguna operación, por ejemplo, si quisieramos los nombres de los archivos de ciertos directorios:
+
+```Makefile
+archivos := $(foreach directorio, src include, $(wildcard $(directorio)/*))
+```
+
+Con lo que obtendríamos todos los ficheros en los directorios `src` e `include`.
 
 
 ### 6.3 - Declaración de nuevas funciones
