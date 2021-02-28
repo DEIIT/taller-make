@@ -701,10 +701,40 @@ clean :
 
 - `.SILENT` : Las dependencias de este objetivo no mostrarán sus recetas al ser ejecutadas (equivalente a utilizar `@` en todos los comandos de la receta). Si se utiliza este objetivo, pero no se asignan dependencias, ninguna regla mostrará su receta (equivalente a ejecutar Make con el parámetro `-s`).
 
+- `.ONESHELL` : Si se menciona como objetivo, cuando se ejecuta la receta de un objetivo todos los comandos se ejecutarán en la misma shell.
+
 ### 6.5 - Secciones condicionales
 
-### 6.6 - Otras características y herramientas de interés
+En Make podemos tener secciones condicionales de la siguiente forma:
 
+```Makefile
+<condicional>
+si-cierto
+else <otro-condicional>
+si-otro
+else
+si-ambos-falso
+endif
+```
+
+Siendo las secciones else opcionales. Las directivas condicionales son las siguientes:
+
+- `ifeq (arg1, arg2)` : Si los argumentos son iguales, se evalua como cierto. Otra sintaxis válida es `ifeq 'arg1' 'arg2'`, sin importar que tipo de comillas utilizar siempre que se usen de forma consistente.
+- `ifneq (arg1, arg2)` : Si los argumentos son distintos, se evalua como cierto. Otra sintaxis válida es `ifeq 'arg1' 'arg2'`, sin importar que tipo de comillas utilizar siempre que se usen de forma consistente.
+- `ifdef var` : Si una variable está definida se evalua como cierto.
+- `ifndef var` : Si una variable no está definida se evalua como cierto.
+
+Un ejemplo sería el siguiente:
+
+```Makefile
+ifeq ($(CXX), g++)
+CXXFLAGS = -std=gnu++20
+else
+CXXFLAGS = -std=c++20
+endif
+```
+
+En este ejemplo comprobamos el compilador a utilizar, si es G++, compilaremos con las extensiones de GNU para C++20, si es otro compilador, utilizaremos la versión estandar de C++20.
 
 ## Bibliografía y enlaces de interés
 
