@@ -656,6 +656,50 @@ all:
 
 ### 6.4 - Objetivos especiales
 
+Make tiene algunos objetivos especiales, utilizados para el funcionamiento interno de Make, algunos de ellos son:
+
+- `.PHONY`: Este objetivo se utiliza para marcar los objetivos que no se tratan de ficheros, si no de reglas auxiliares para el proceso de compilación, de forma que Make no comprobará su última fecha de modificación para ver si es necesario lanzar la regla, siempre la lanzará. El objetivo `all`, por ejemplo, siempre debería formar parte del objetivo `.PHONY`.
+
+Para utilizarlo basta con asignarle el valor, por ejemplo:
+
+```Makefile
+define creadir
+	@printf "\033[1;32mCreando directorio\033[0m %s\n" $(1)
+	@mkdir -p $(2)
+endef
+
+.PHONY = all
+
+all:
+	$(foreach dir,src bin obj, $(call creadir, $(dir)))
+```
+
+Se puede asignar a todas las reglas que queramos, tanto por separado como de forma individual:
+
+```Makefile
+define creadir
+	@printf "\033[1;32mCreando directorio\033[0m %s\n" $(1)
+	@mkdir -p $(2)
+endef
+
+# También podríamos usar:
+# .PHONY = all clean
+
+.PHONY = all
+
+all:
+	$(foreach dir,src bin obj, $(call creadir, $(dir)))
+
+.PHONY = clean
+
+clean :
+	-rm *.o
+```
+
+
+- `.DEFAULT` : La receta asociada a este objetivo se usará todos las dependencias que no tengan asociado un objetivo para ser construidos.
+
+- `.SILENT` : Las dependencias de este objetivo no mostrarán sus recetas al ser ejecutadas (equivalente a utilizar `@` en todos los comandos de la receta). Si se utiliza este objetivo, pero no se asignan dependencias, ninguna regla mostrará su receta (equivalente a ejecutar Make con el parámetro `-s`).
 
 ### 6.5 - Secciones condicionales
 
